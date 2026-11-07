@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const morgan = require("morgan");
+const path = require("node:path");
 
 const { notFound, errorHandler } = require("./middleware/error");
 
@@ -32,6 +33,8 @@ if (process.env.NODE_ENV !== "test") app.use(morgan("dev"));
 
 // --- health check ---
 app.get("/api/health", (req, res) => res.json({ ok: true, service: "babybook-api" }));
+
+app.get("/privacy", (req, res) => res.sendFile(path.join(__dirname, "../public/privacy.html")));
 
 // --- routes ---
 app.use("/api/auth", authRoutes);
